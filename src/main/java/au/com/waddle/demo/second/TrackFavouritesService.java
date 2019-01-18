@@ -23,12 +23,13 @@ public class TrackFavouritesService {
     @TransactionalEventListener
     @Transactional
     public void favouriteAdded(FavouriteAddedEvent event) {
-        System.out.println("Favourite added " + event.getPostId());
+        logger.debug("Favourited Post postId=" + event.getPostId());
 
         // Assuming a favourite entity is saved here. But the test is to handle the published event below in another
         // module.
 
-        // Synchronous call
+        // According to the documentation this is a synchronous call. Could be an issue if multiple threads are running
+        // and publishing this event.
         publisher.publishEvent(event);
     }
 }

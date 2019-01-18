@@ -23,23 +23,16 @@ public class FavouriteAddedListener implements ApplicationListener<FavouriteAdde
 
     @Override
     public void onApplicationEvent(FavouriteAddedEvent applicationEvent) {
+        logger.debug("Handling FavouriteAddedEvent");
+
         Iterator<FavouriteStats> iterator = repository.findAll().iterator();
 
-        // Tracking all favourite events in a single counter
-        if(iterator.hasNext()) {
-            FavouriteStats stats = iterator.next();
-            stats.increment();
-            repository.save(stats);
-            logger.debug(stats.toString());
+        FavouriteStats stats = iterator.hasNext() ? iterator.next() : new FavouriteStats();
 
-        } else {
-            FavouriteStats stats = new FavouriteStats();
-            stats.increment();
-            repository.save(stats);
-            logger.debug(stats.toString());
-        }
+        stats.increment();
+        repository.save(stats);
 
-        logger.debug("Incremented favourite counter");
+        logger.info(stats.toString());
     }
 
 }

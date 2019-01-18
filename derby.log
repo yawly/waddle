@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Jan 17 16:21:47 HKT 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0168-5ae6-e210-000019c09a60 
+Fri Jan 18 10:46:52 HKT 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0168-5eda-a08b-00001902e6f0 
 on database directory /Users/yawly/Projects/waddle/task/demo.db with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
 Loaded from file:/Users/yawly/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation

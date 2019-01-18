@@ -1,20 +1,19 @@
 import React from "react";
 
 
-const REMOVE_LABEL = "Remove from favourites";
-const ADD_LABEL = "Mark as favourite";
-
+const FAVOURITE_LABEL = "Mark as favourite";
+const FAVOURITE_DISABLED_LABEL = "Favourited";
 
 class Post extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.toggleFavourite = this.toggleFavourite.bind(this);
+        this.markAsFavourite = this.markAsFavourite.bind(this);
 
         this.state = {
-            isFavourite: false,
-            buttonLabel: ADD_LABEL
+            isFavourited: false,
+            buttonLabel: FAVOURITE_LABEL
         }
     }
 
@@ -27,10 +26,13 @@ class Post extends React.Component {
     componentWillUnmount() {
     }
 
-    toggleFavourite() {
-        var { isFavourite } = this.state;
+    markAsFavourite() {
+        var { isFavourited } = this.state;
+        var { id } = this.props;
 
-        fetch('http://localhost:8080/post/'+this.props.id, {
+        // Hardcoding the endpoint. Ideally should be placed in a configuration to point to the service.
+        // If using microservices with service lookup (DNS) hardcoding it wouldn't be all that bad.
+        fetch('http://localhost:8080/post/'+id, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -43,9 +45,10 @@ class Post extends React.Component {
         }).
         then((data) => {
 
+            // Assuming HTTP Response code 200. Can also add a case for error scenarios.
             this.setState({
-                isFavourite: !isFavourite,
-                buttonLabel: isFavourite ? REMOVE_LABEL : ADD_LABEL
+                isFavourited: !isFavourited,
+                buttonLabel: FAVOURITE_DISABLED_LABEL
             });
 
             return data;
@@ -55,13 +58,13 @@ class Post extends React.Component {
 
     render() {
         const { title, url } = this.props;
-        const { buttonLabel } = this.state;
+        const { isFavourited, buttonLabel } = this.state;
 
         return (
             <div className="post">
                 <h3 className="post__title">{ title }</h3>
-                <a className="post__link" href={ url }>Read more</a>
-                <button onClick={ (e) => this.toggleFavourite() }> { buttonLabel }</button>
+                <a className="post__link" href={ url } target="_blank">Read more</a>
+                <button onClick={ (e) => this.markAsFavourite() } disabled={ isFavourited }> { buttonLabel }</button>
             </div>
         );
     }
